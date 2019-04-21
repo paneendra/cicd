@@ -5,8 +5,6 @@ static def doRESTHTTPCall(urlString, method, payload, headers)
 {
     //log(DEBUG,  "START doRESTHTTPCall")
     //log(INFO, "requestURl is " + urlString)
-    System.out.println("START doRESTHTTPCall")
-    System.out.println(urlString)
     def url = new URL(urlString)
     def connection = url.openConnection()
     headers.keySet().each {
@@ -28,7 +26,6 @@ static def doRESTHTTPCall(urlString, method, payload, headers)
     }
     connection.connect()
     //log(DEBUG,  "END doRESTHTTPCall")
-    System.out.println("END doRESTHTTPCall")
     return connection
 }
 
