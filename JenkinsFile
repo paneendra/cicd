@@ -1,11 +1,6 @@
 node {
-	Properties props = new Properties()
-	File propsFile = new File('anypoint-platform.properties')
-	propsFile.withInputStream {
-	    props.load(it)
-	}
     def rootDir = pwd()
     def example = load "${rootDir}@script/GetAnypointToken.Groovy"
     
-    String token = example.getAnypointToken(props)
+    String token = example.getAnypointToken()
 }
