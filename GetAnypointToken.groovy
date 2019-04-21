@@ -37,7 +37,7 @@ def getAnypointToken()
 {
     //log(DEBUG,  "START getAnypointToken")
     def username="SupportNonProd"
-    def password="gGUF92NG1$ww"
+    def password="gGUF92NG1\$ww"
     System.out.print(username)
     System.out.print(password)
     //log(TRACE, "username=" + username)
