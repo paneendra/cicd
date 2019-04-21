@@ -38,15 +38,12 @@ def getAnypointToken()
     //log(DEBUG,  "START getAnypointToken")
     def username="SupportNonProd"
     def password="gGUF92NG1\$ww"
-    System.out.print(username)
-    System.out.print(password)
     //log(TRACE, "username=" + username)
     // log(TRACE, "password=" + password)
     def urlString = "https://anypoint.mulesoft.com/accounts/login"
     def message = 'username='+username+'&password='+password
     def headers=["Content-Type":"application/x-www-form-urlencoded", "Accept": "application/json"]
     def connection = doRESTHTTPCall(urlString, "POST", message, headers)
-    System.out.println("Connection returned ")
     if ( connection.responseCode =~ '2..')
     {
     }else
@@ -56,7 +53,6 @@ def getAnypointToken()
     def response = connection.content
 
     def token = new JsonSlurper().parse(response).access_token
-    System.out.println("Token: "+token)
     //log(INFO, "Bearer Token: ${token}")
     //log(DEBUG,  "END getAnypointToken")
     return token
