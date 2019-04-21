@@ -35,14 +35,9 @@ static def doRESTHTTPCall(urlString, method, payload, headers)
 //Gets the anypoint platform token
 def getAnypointToken()
 {
-    Properties props = new Properties()
-    File propsFile = new File('anypoint-platform.properties')
-    propsFile.withInputStream {
-        props.load(it)
-    }
     //log(DEBUG,  "START getAnypointToken")
-    def username=props.getProperty('anypoint.platform.user')
-    def password=props.getProperty('anypoint.platform.password')
+    def username="SupportNonProd"
+    def password="gGUF92NG1$ww"
     System.out.print(username)
     System.out.print(password)
     //log(TRACE, "username=" + username)
