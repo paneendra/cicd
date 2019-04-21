@@ -62,5 +62,5 @@ def getAnypointToken()
     return token
 }
 
-
+return this
 //String token = getAnypointToken(props)
