@@ -68,4 +68,4 @@ propsFile.withInputStream {
     props.load(it)
 }
 
-String token = getAnypointToken(props)
+//String token = getAnypointToken(props)
