@@ -1,0 +1,71 @@
+import groovy.json.JsonSlurper
+
+//Method for http callouts
+static def doRESTHTTPCall(urlString, method, payload, headers)
+{
+    //log(DEBUG,  "START doRESTHTTPCall")
+    //log(INFO, "requestURl is " + urlString)
+    System.out.println("START doRESTHTTPCall")
+    System.out.println(urlString)
+    def url = new URL(urlString)
+    def connection = url.openConnection()
+    headers.keySet().each {
+        //log(INFO, it + "->" + headers.get(it))
+        connection.setRequestProperty(it, headers.get(it))
+    }
+    connection.doOutput = true
+    if (method == "POST")
+    {
+        connection.setRequestMethod("POST")
+        def writer = new OutputStreamWriter(connection.outputStream)
+        writer.write(payload)
+        writer.flush()
+        writer.close()
+    }
+    else if (method == "GET")
+    {
+        connection.setRequestMethod("GET")
+    }
+    connection.connect()
+    //log(DEBUG,  "END doRESTHTTPCall")
+    System.out.println("END doRESTHTTPCall")
+    return connection
+}
+
+//Gets the anypoint platform token
+def getAnypointToken(Properties props)
+{
+    //log(DEBUG,  "START getAnypointToken")
+    def username=props.getProperty('anypoint.platform.user')
+    def password=props.getProperty('anypoint.platform.password')
+    System.out.print(username)
+    System.out.print(password)
+    //log(TRACE, "username=" + username)
+    // log(TRACE, "password=" + password)
+    def urlString = "https://anypoint.mulesoft.com/accounts/login"
+    def message = 'username='+username+'&password='+password
+    def headers=["Content-Type":"application/x-www-form-urlencoded", "Accept": "application/json"]
+    def connection = doRESTHTTPCall(urlString, "POST", message, headers)
+    System.out.println("Connection returned ")
+    if ( connection.responseCode =~ '2..')
+    {
+    }else
+    {
+        throw new Exception("Failed to get the login token!")
+    }
+    def response = connection.content
+
+    def token = new JsonSlurper().parse(response).access_token
+    System.out.println("Token: "+token)
+    //log(INFO, "Bearer Token: ${token}")
+    //log(DEBUG,  "END getAnypointToken")
+    return token
+}
+
+Properties props = new Properties()
+File propsFile = new File('anypoint-platform.properties')
+propsFile.withInputStream {
+    props.load(it)
+}
+
+String token = getAnypointToken(props)
